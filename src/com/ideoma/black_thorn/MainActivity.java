@@ -5,6 +5,7 @@ import java.util.Locale;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -67,6 +68,12 @@ public class MainActivity extends FragmentActivity {
 			{
 				@Override public void onClick(DialogInterface dialog, int which) { finish(); }
 			});
+			ad.setButton(AlertDialog.BUTTON_NEUTRAL, "Enable GPS", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					EnableGPS();
+				}
+			});
 			ad.show();
 		}
 		
@@ -81,6 +88,13 @@ public class MainActivity extends FragmentActivity {
 		mViewPager.setCurrentItem(1);
 		mViewPager.setOffscreenPageLimit(2);
 
+	}
+	
+	public void EnableGPS()
+	{
+		Intent intent=new Intent("android.location.GPS_ENABLED_CHANGE");
+		intent.putExtra("enabled", true);
+		sendBroadcast(intent);
 	}
 
 	@Override
