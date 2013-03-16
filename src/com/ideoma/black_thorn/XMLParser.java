@@ -14,8 +14,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class XMLParser {
-
-	public InputStream instream;
 	
 	public XMLParser()
 	{
