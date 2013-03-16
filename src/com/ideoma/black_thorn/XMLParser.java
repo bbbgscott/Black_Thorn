@@ -15,11 +15,6 @@ import org.xml.sax.SAXException;
 
 public class XMLParser {
 	
-	public XMLParser()
-	{
-		 
-	}
-
 	public Document ParseXMLToDoc(InputStream in) throws SAXException, IOException, ParserConfigurationException
 	{
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
