@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -43,6 +44,8 @@ public class MainActivity extends FragmentActivity {
 	 * {@link android.support.v4.app.FragmentStatePagerAdapter}.
 	 */
 	SectionsPagerAdapter mSectionsPagerAdapter;
+	
+	private final int OPEN_SECURITY_SETTINGS = 27;
 
 	/**
 	 * The {@link ViewPager} that will host the section contents.
@@ -92,9 +95,8 @@ public class MainActivity extends FragmentActivity {
 	
 	public void EnableGPS()
 	{
-		Intent intent=new Intent("android.location.GPS_ENABLED_CHANGE");
-		intent.putExtra("enabled", true);
-		sendBroadcast(intent);
+		Intent intent = new Intent(android.provider.Settings.ACTION_SECURITY_SETTINGS);
+		startActivityForResult(intent,OPEN_SECURITY_SETTINGS);
 	}
 
 	@Override
@@ -124,13 +126,13 @@ public class MainActivity extends FragmentActivity {
 			Bundle args = null;
 			switch(position) {
 			case 0:
-				fragment = new DummySectionFragment();
+				fragment = new DummySectionFragment(R.layout.aboutuslayout);
 				args = new Bundle();
 				args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
 				fragment.setArguments(args);
 				return fragment;
 			case 1:
-				fragment = new DummySectionFragment();
+				fragment = new DummySectionFragment(R.layout.mainlayout);
 				args = new Bundle();
 				args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
 				fragment.setArguments(args);
@@ -140,7 +142,7 @@ public class MainActivity extends FragmentActivity {
 				args = new Bundle();
 				return fragment;
 			default:
-				fragment = new DummySectionFragment();
+				fragment = new DummySectionFragment(R.layout.fragment_main_dummy);
 				args = new Bundle();
 				args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
 				fragment.setArguments(args);
@@ -193,19 +195,17 @@ public class MainActivity extends FragmentActivity {
 		 * fragment.
 		 */
 		public static final String ARG_SECTION_NUMBER = "section_number";
+		public int layout = R.layout.fragment_main_dummy;
 
-		public DummySectionFragment() {
+		public DummySectionFragment(int l) {
+			layout = l;
 		}
 
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_main_dummy,
+			View rootView = inflater.inflate(layout,
 					container, false);
-			TextView dummyTextView = (TextView) rootView
-					.findViewById(R.id.section_label);
-			dummyTextView.setText(Integer.toString(getArguments().getInt(
-					ARG_SECTION_NUMBER)));
 			return rootView;
 		}
 	}
