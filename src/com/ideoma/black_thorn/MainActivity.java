@@ -2,6 +2,7 @@ package com.ideoma.black_thorn;
 
 import java.util.Locale;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -129,23 +130,17 @@ public class MainActivity extends FragmentActivity {
 			Bundle args = null;
 			switch(position) {
 			case 0:
-<<<<<<< HEAD
 				pageFragment = new DummySectionFragment();
-=======
-				fragment = new DummySectionFragment(R.layout.aboutuslayout);
->>>>>>> 9355897898ac6a5e0abaafab355d9210ffeb1efc
 				args = new Bundle();
 				args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
+				args.putInt("view", R.layout.aboutuslayout);
 				pageFragment.setArguments(args);
 				return pageFragment;
 			case 1:
-<<<<<<< HEAD
 				pageFragment = new DummySectionFragment();
-=======
-				fragment = new DummySectionFragment(R.layout.mainlayout);
->>>>>>> 9355897898ac6a5e0abaafab355d9210ffeb1efc
 				args = new Bundle();
 				args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
+				args.putInt("view", R.layout.mainlayout);
 				pageFragment.setArguments(args);
 				return pageFragment;
 			case 2:
@@ -164,13 +159,10 @@ public class MainActivity extends FragmentActivity {
 				args = new Bundle();
 				return pageFragment;
 			default:
-<<<<<<< HEAD
 				pageFragment = new DummySectionFragment();
-=======
-				fragment = new DummySectionFragment(R.layout.fragment_main_dummy);
->>>>>>> 9355897898ac6a5e0abaafab355d9210ffeb1efc
 				args = new Bundle();
 				args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
+				args.putInt("view", R.layout.fragment_main_dummy);
 				pageFragment.setArguments(args);
 				return pageFragment;
 			}
@@ -210,9 +202,10 @@ public class MainActivity extends FragmentActivity {
 		 */
 		public static final String ARG_SECTION_NUMBER = "section_number";
 		public int layout = R.layout.fragment_main_dummy;
-
-		public DummySectionFragment(int l) {
-			layout = l;
+		Bundle savedInstanceState;
+		
+		public DummySectionFragment() {
+			savedInstanceState.get("view");
 		}
 
 		@Override
