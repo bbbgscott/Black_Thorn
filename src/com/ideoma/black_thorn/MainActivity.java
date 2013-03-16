@@ -130,21 +130,21 @@ public class MainActivity extends FragmentActivity {
 			Bundle args = null;
 			switch(position) {
 			case 0:
-				pageFragment = new DummySectionFragment();
+				pageFragment = new AboutFragment();
 				args = new Bundle();
 				args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
 				args.putInt("view", R.layout.aboutuslayout);
 				pageFragment.setArguments(args);
 				return pageFragment;
 			case 1:
-				pageFragment = new DummySectionFragment();
+				pageFragment = new WelcomeFragment();
 				args = new Bundle();
 				args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
 				args.putInt("view", R.layout.mainlayout);
 				pageFragment.setArguments(args);
 				return pageFragment;
 			case 2:
-				pageFragment = new MyMapFragment();
+				pageFragment = new MapFragment();
 				try{
 					//map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 				} catch(Exception e) {
@@ -202,26 +202,37 @@ public class MainActivity extends FragmentActivity {
 		 */
 		public static final String ARG_SECTION_NUMBER = "section_number";
 		public int layout = R.layout.fragment_main_dummy;
-		Bundle savedInstanceState;
 		
 		public DummySectionFragment() {
-			savedInstanceState.get("view");
 		}
 
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
+			try {
+				layout = savedInstanceState.getInt("view");
+			} catch(Exception e) {
+				Log.e("viewerr", "View Error: " + e);
+				Log.e("viewerr", "Layout: " + layout);
+				if(savedInstanceState == null) {
+					Log.e("viewerr", "Bundle is empty");
+					layout = R.layout.fragment_main_dummy;
+				}else{
+					Log.e("viewerr", "Bundle is not empty");
+				}
+				
+			}
 			View rootView = inflater.inflate(layout,
 					container, false);
 			return rootView;
 		}
 	}
 	
-	public static class MyMapFragment extends Fragment {
+	public static class MapFragment extends Fragment {
 		static final LatLng Monterey = new LatLng(36.6003, 121.8936);
 		private GoogleMap map;
 		
-		public MyMapFragment() {
+		public MapFragment() {
 			
 		}
 		@Override
@@ -231,6 +242,58 @@ public class MainActivity extends FragmentActivity {
 			View rootView = null;
 			try {
 				rootView = inflater.inflate(R.layout.map, container, false);
+			} catch(InflateException e) {
+				Log.e("mapstuff", "Error, Will Robinson: " + e);
+			}
+			Log.w("mapid", R.id.map + "");
+			
+			//map = (GoogleMap)((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+			//map = (MapFragment)getFragmentManager().findFragmentById(R.id.map);
+			
+			return rootView;
+		}
+	}
+
+	public static class WelcomeFragment extends Fragment {
+		static final LatLng Monterey = new LatLng(36.6003, 121.8936);
+		private GoogleMap map;
+		
+		public WelcomeFragment() {
+			
+		}
+		@Override
+		public View onCreateView(LayoutInflater inflater, ViewGroup container,
+				Bundle savedInstanceState) {
+			
+			View rootView = null;
+			try {
+				rootView = inflater.inflate(R.layout.mainlayout, container, false);
+			} catch(InflateException e) {
+				Log.e("mapstuff", "Error, Will Robinson: " + e);
+			}
+			Log.w("mapid", R.id.map + "");
+			
+			//map = (GoogleMap)((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+			//map = (MapFragment)getFragmentManager().findFragmentById(R.id.map);
+			
+			return rootView;
+		}
+	}
+
+	public static class AboutFragment extends Fragment {
+		static final LatLng Monterey = new LatLng(36.6003, 121.8936);
+		private GoogleMap map;
+		
+		public AboutFragment() {
+			
+		}
+		@Override
+		public View onCreateView(LayoutInflater inflater, ViewGroup container,
+				Bundle savedInstanceState) {
+			
+			View rootView = null;
+			try {
+				rootView = inflater.inflate(R.layout.aboutuslayout, container, false);
 			} catch(InflateException e) {
 				Log.e("mapstuff", "Error, Will Robinson: " + e);
 			}
