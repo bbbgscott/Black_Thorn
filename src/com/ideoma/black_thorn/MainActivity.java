@@ -1,6 +1,16 @@
 package com.ideoma.black_thorn;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Locale;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -254,6 +264,7 @@ public class MainActivity extends FragmentActivity {
 		}
 	}
 
+<<<<<<< HEAD
 	public static class WelcomeFragment extends Fragment {
 		static final LatLng Monterey = new LatLng(36.6003, 121.8936);
 		private GoogleMap map;
@@ -306,4 +317,36 @@ public class MainActivity extends FragmentActivity {
 		}
 	}
 
+=======
+	LatLng[] GetGpsCoordsFromResource(int res)
+	{
+		try {
+			ArrayList<LatLng> coords = new ArrayList<LatLng>();
+			InputStream in = getResources().openRawResource(res);
+			XMLParser parser = new XMLParser();
+		
+			Document doc = parser.ParseXMLToDoc(in);
+			NodeList nList = parser.ParseDocByTagName(doc, "lat_long_pts");
+			for(int i = 0; i < nList.getLength(); i++)
+			{
+				long lat = 0, lng = 0;
+				Element ele = (Element) nList.item(i);
+				lat = Long.parseLong(parser.GetTextValueByTagName(ele, "lat"));
+				lng = Long.parseLong(parser.GetTextValueByTagName(ele, "lat"));
+				coords.add(new LatLng(lat,lng));
+			}
+			LatLng[] latlngarray = new LatLng[coords.size()];
+			coords.toArray(latlngarray);
+			return latlngarray;
+		} catch (SAXException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		}
+		return null;
+	} 
+	
+>>>>>>> 59e9606fd4bca9f81dbcf36f1365d6b7f9d72ab2
 }
