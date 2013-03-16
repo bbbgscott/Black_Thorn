@@ -35,6 +35,7 @@ import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -71,7 +72,7 @@ public class MainActivity extends FragmentActivity {
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
-	ViewPager bottomPager;
+	BottomViewPager bottomPager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +111,8 @@ public class MainActivity extends FragmentActivity {
 
 		// Set up the ViewPager with the sections adapter.
 		mViewPager = (ViewPager) findViewById(R.id.pager);
-		bottomPager = (ViewPager) findViewById(R.id.pager_bottom);
+		bottomPager = (BottomViewPager)findViewById(R.id.pager_bottom);
+		bottomPager.pass_on_vp = mViewPager;
 		
 		mViewPager.setAdapter(mSectionsPagerAdapter);
 		mViewPager.setCurrentItem(1);
@@ -235,12 +237,31 @@ public class MainActivity extends FragmentActivity {
 			return currentTitle;
 		}
 		@Override
-		public Fragment getItem(int arg0) {
-			// TODO Auto-generated method stub
-			return null;
+		public Fragment getItem(int pos) {
+			return new Fragment();
 		}
 	}
 
+	public class BottomViewPager extends ViewPager
+	{
+		public ViewPager pass_on_vp;
+		public BottomViewPager(Context context, ViewPager pager) {
+			super(context);
+			pass_on_vp = pager;
+		}
+		
+		@Override
+		public boolean onInterceptTouchEvent (MotionEvent ev)
+		{
+			if(pass_on_vp!=null)
+			{
+				pass_on_vp.onInterceptTouchEvent(ev);
+			}
+			return false;
+		}
+		
+	}
+	
 	/**
 	 * A dummy fragment representing a section of the app, but that simply
 	 * displays dummy text.
