@@ -2,6 +2,10 @@ package com.ideoma.black_thorn;
 
 import java.util.Locale;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -50,6 +54,23 @@ public class MainActivity extends FragmentActivity {
 		setContentView(R.layout.activity_main);
 		//setContentView(R.layout.map);
 
+		final LocationManager locmanager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+		if(!locmanager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+		{
+			final AlertDialog ad = new AlertDialog.Builder(this).create();
+			ad.setTitle("Warning!");
+			ad.setMessage("You do not have your GPS location service activate! The map won't function!");
+			ad.setButton(AlertDialog.BUTTON_POSITIVE,"Take me to the app anyway", new DialogInterface.OnClickListener()
+			{
+				@Override public void onClick(DialogInterface dialog, int which) { ad.dismiss(); }
+			});
+			ad.setButton(AlertDialog.BUTTON_NEGATIVE, "Exit", new DialogInterface.OnClickListener() 
+			{
+				@Override public void onClick(DialogInterface dialog, int which) { finish(); }
+			});
+			ad.show();
+		}
+		
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
 		mSectionsPagerAdapter = new SectionsPagerAdapter(
