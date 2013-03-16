@@ -18,6 +18,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
@@ -33,8 +34,11 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -55,6 +59,8 @@ public class MainActivity extends FragmentActivity {
 	 * {@link android.support.v4.app.FragmentStatePagerAdapter}.
 	 */
 	SectionsPagerAdapter mSectionsPagerAdapter;
+	
+	String MainSiteUrl = "http://www.sustainablemontereycounty.org/monterey-green-action.html";
 	
 	private final int OPEN_SECURITY_SETTINGS = 27;
 
@@ -101,7 +107,26 @@ public class MainActivity extends FragmentActivity {
 		mViewPager.setAdapter(mSectionsPagerAdapter);
 		mViewPager.setCurrentItem(1);
 		mViewPager.setOffscreenPageLimit(2);
-
+		
+		/*
+		  	Button donateButton = (Button)findViewById(R.id.button1);
+			donateButton.setOnClickListener(new OnClickListener(){
+				@Override
+				public void onClick(View v) {
+					Toast.makeText(getApplicationContext(), "Sorry, there is no donation function yet.", Toast.LENGTH_SHORT).show();
+				}
+			});
+			
+			Button siteButton = (Button)findViewById(R.id.Button01);
+			siteButton.setOnClickListener(new OnClickListener(){
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent(Intent.ACTION_VIEW);
+					intent.setData(Uri.parse(MainSiteUrl));
+					startActivity(intent);
+				}
+			});
+		 */
 	}
 	
 	public void EnableGPS()
@@ -264,7 +289,6 @@ public class MainActivity extends FragmentActivity {
 		}
 	}
 
-<<<<<<< HEAD
 	public static class WelcomeFragment extends Fragment {
 		static final LatLng Monterey = new LatLng(36.6003, 121.8936);
 		private GoogleMap map;
@@ -292,32 +316,50 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	public static class AboutFragment extends Fragment {
-		static final LatLng Monterey = new LatLng(36.6003, 121.8936);
+		final LatLng Monterey = new LatLng(36.6003, 121.8936);
 		private GoogleMap map;
+		String MainSiteUrl = "http://www.sustainablemontereycounty.org/monterey-green-action.html";
 		
-		public AboutFragment() {
+		public AboutFragment() 
+		{
 			
 		}
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
-			
-			View rootView = null;
 			try {
-				rootView = inflater.inflate(R.layout.aboutuslayout, container, false);
+				final View rootView =  inflater.inflate(R.layout.aboutuslayout, container, false);
+			
+				//map = (GoogleMap)((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+				//map = (MapFragment)getFragmentManager().findFragmentById(R.id.map);
+				
+				Button donateButton = (Button)rootView.findViewById(R.id.button1);
+				donateButton.setOnClickListener(new OnClickListener(){
+					@Override
+					public void onClick(View v) {
+						Toast.makeText(rootView.getContext(), "Sorry, there is no donation function yet.", Toast.LENGTH_SHORT).show();
+					}
+				});
+				
+				Button siteButton = (Button)rootView.findViewById(R.id.Button01);
+				siteButton.setOnClickListener(new OnClickListener(){
+					@Override
+					public void onClick(View v) {
+						Intent intent = new Intent(Intent.ACTION_VIEW);
+						intent.setData(Uri.parse(MainSiteUrl));
+						startActivity(intent);
+					}
+				});
+				
+				return rootView;
 			} catch(InflateException e) {
 				Log.e("mapstuff", "Error, Will Robinson: " + e);
 			}
 			Log.w("mapid", R.id.map + "");
-			
-			//map = (GoogleMap)((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-			//map = (MapFragment)getFragmentManager().findFragmentById(R.id.map);
-			
-			return rootView;
+			return null;
 		}
 	}
 
-=======
 	LatLng[] GetGpsCoordsFromResource(int res)
 	{
 		try {
@@ -348,5 +390,4 @@ public class MainActivity extends FragmentActivity {
 		return null;
 	} 
 	
->>>>>>> 59e9606fd4bca9f81dbcf36f1365d6b7f9d72ab2
 }
