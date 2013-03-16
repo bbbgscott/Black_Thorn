@@ -9,7 +9,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,6 +40,7 @@ public class MainActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		//setContentView(R.layout.map);
 
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
@@ -72,11 +75,20 @@ public class MainActivity extends FragmentActivity {
 			// getItem is called to instantiate the fragment for the given page.
 			// Return a DummySectionFragment (defined as a static inner class
 			// below) with the page number as its lone argument.
-			Fragment fragment = new DummySectionFragment();
-			Bundle args = new Bundle();
-			args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
-			fragment.setArguments(args);
-			return fragment;
+			//Fragment fragment = new DummySectionFragment();
+			Fragment fragment = null;
+			if(position == 1) {
+				fragment = new MapFragment();
+				Bundle args = new Bundle();
+				return fragment;
+			}
+			else {
+				fragment = new DummySectionFragment();
+				Bundle args = new Bundle();
+				args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
+				fragment.setArguments(args);
+				return fragment;
+			}
 		}
 
 		@Override
@@ -95,6 +107,8 @@ public class MainActivity extends FragmentActivity {
 				return getString(R.string.title_section2).toUpperCase(l);
 			case 2:
 				return getString(R.string.title_section3).toUpperCase(l);
+			case 3:
+				return "Hello";
 			}
 			return null;
 		}
@@ -123,6 +137,26 @@ public class MainActivity extends FragmentActivity {
 					.findViewById(R.id.section_label);
 			dummyTextView.setText(Integer.toString(getArguments().getInt(
 					ARG_SECTION_NUMBER)));
+			return rootView;
+		}
+	}
+	
+	public static class MapFragment extends Fragment {
+		
+		public MapFragment() {
+			
+		}
+		
+		@Override
+		public View onCreateView(LayoutInflater inflater, ViewGroup container,
+				Bundle savedInstanceState) {
+			View rootView = null;
+			try {
+				rootView = inflater.inflate(R.layout.map, container, false);
+			} catch(InflateException e) {
+				Log.e("mapstuff", "Error, Will Robinson: " + e);
+			}
+			
 			return rootView;
 		}
 	}
