@@ -3,6 +3,7 @@ package com.ideoma.black_thorn;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Locale;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -19,6 +20,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
@@ -59,6 +61,7 @@ public class MainActivity extends FragmentActivity {
 	 * {@link android.support.v4.app.FragmentStatePagerAdapter}.
 	 */
 	SectionsPagerAdapter mSectionsPagerAdapter;
+	BottomPagerAdapter mBottomPagerAdapter;
 	
 	String MainSiteUrl = "http://www.sustainablemontereycounty.org/monterey-green-action.html";
 	
@@ -68,6 +71,7 @@ public class MainActivity extends FragmentActivity {
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
+	ViewPager bottomPager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -101,32 +105,18 @@ public class MainActivity extends FragmentActivity {
 		// primary sections of the app.
 		mSectionsPagerAdapter = new SectionsPagerAdapter(
 				getSupportFragmentManager());
+		mBottomPagerAdapter = new BottomPagerAdapter(
+				getSupportFragmentManager());
 
 		// Set up the ViewPager with the sections adapter.
 		mViewPager = (ViewPager) findViewById(R.id.pager);
+		bottomPager = (ViewPager) findViewById(R.id.pager_bottom);
+		
 		mViewPager.setAdapter(mSectionsPagerAdapter);
 		mViewPager.setCurrentItem(1);
 		mViewPager.setOffscreenPageLimit(2);
 		
-		/*
-		  	Button donateButton = (Button)findViewById(R.id.button1);
-			donateButton.setOnClickListener(new OnClickListener(){
-				@Override
-				public void onClick(View v) {
-					Toast.makeText(getApplicationContext(), "Sorry, there is no donation function yet.", Toast.LENGTH_SHORT).show();
-				}
-			});
-			
-			Button siteButton = (Button)findViewById(R.id.Button01);
-			siteButton.setOnClickListener(new OnClickListener(){
-				@Override
-				public void onClick(View v) {
-					Intent intent = new Intent(Intent.ACTION_VIEW);
-					intent.setData(Uri.parse(MainSiteUrl));
-					startActivity(intent);
-				}
-			});
-		 */
+		bottomPager.setAdapter(mBottomPagerAdapter);
 	}
 	
 	public void EnableGPS()
@@ -222,6 +212,31 @@ public class MainActivity extends FragmentActivity {
 			case 3:
 				return "Hello";
 			}
+			return null;
+		}
+	}
+	
+	public class BottomPagerAdapter extends FragmentPagerAdapter {
+		String currentTitle = "poop";
+		String[] titlesArray;
+		int currentIndex = 0;
+		
+		public BottomPagerAdapter(FragmentManager fm) {
+			super(fm);
+		}
+		@Override
+		public int getCount() {
+			// Show 1 total pages.
+			return 1;
+		}
+
+		@Override
+		public CharSequence getPageTitle(int position) {
+			return currentTitle;
+		}
+		@Override
+		public Fragment getItem(int arg0) {
+			// TODO Auto-generated method stub
 			return null;
 		}
 	}
@@ -360,6 +375,32 @@ public class MainActivity extends FragmentActivity {
 		}
 	}
 
+	public class MarqueeChangeTask extends AsyncTask {
+		long startTime = 0;
+		long nextTime = 2*(60*1000);
+		Calendar c;
+		@Override
+		protected Object doInBackground(Object... arg0) {
+			if(c.getTimeInMillis()-startTime >= nextTime)
+			{
+				RestartTime(c);
+				//Change text
+			}
+			return null;
+		}
+		
+		protected void onPreExecute()
+		{
+			c = Calendar.getInstance();
+			RestartTime(c);
+		}
+		
+		private void RestartTime(Calendar cal)
+		{
+			startTime = cal.getTimeInMillis();
+		}
+	}
+	
 	LatLng[] GetGpsCoordsFromResource(int res)
 	{
 		try {
