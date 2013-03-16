@@ -253,11 +253,11 @@ public class MainActivity extends FragmentActivity {
 		}
 	}
 
-	LatLng[] GetCsumbGpsCoords()
+	LatLng[] GetGpsCoordsFromResource(int res)
 	{
 		try {
 			ArrayList<LatLng> coords = new ArrayList<LatLng>();
-			InputStream in = getResources().openRawResource(R.xml.csumb_gps_coordinates);
+			InputStream in = getResources().openRawResource(res);
 			XMLParser parser = new XMLParser();
 		
 			Document doc = parser.ParseXMLToDoc(in);
