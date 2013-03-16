@@ -3,8 +3,8 @@
 
     <string name="app_name">Black_Thorn</string>
     <string name="action_settings">Settings</string>
-    <string name="title_section1">welcome</string>
-    <string name="title_section2">about</string>
-    <string name="title_section3">other shit</string>
+    <string name="title_section1">about</string>
+    <string name="title_section2">welcome</string>
+    <string name="title_section3">map</string>
 
 </resources>

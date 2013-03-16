@@ -48,7 +48,6 @@ public class MainActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		//setContentView(R.layout.map);
 
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
@@ -58,6 +57,7 @@ public class MainActivity extends FragmentActivity {
 		// Set up the ViewPager with the sections adapter.
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
+		mViewPager.setCurrentItem(1);
 
 	}
 
@@ -85,9 +85,34 @@ public class MainActivity extends FragmentActivity {
 			// below) with the page number as its lone argument.
 			//Fragment fragment = new DummySectionFragment();
 			Fragment fragment = null;
+			Bundle args = null;
+			switch(position) {
+			case 0:
+				fragment = new DummySectionFragment();
+				args = new Bundle();
+				args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
+				fragment.setArguments(args);
+				return fragment;
+			case 1:
+				fragment = new DummySectionFragment();
+				args = new Bundle();
+				args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
+				fragment.setArguments(args);
+				return fragment;
+			case 2:
+				fragment = new MapFragment();
+				args = new Bundle();
+				return fragment;
+			default:
+				fragment = new DummySectionFragment();
+				args = new Bundle();
+				args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
+				fragment.setArguments(args);
+				return fragment;
+			}/*
 			if(position == 1) {
 				fragment = new MapFragment();
-				Bundle args = new Bundle();
+				args = new Bundle();
 				return fragment;
 			}
 			else {
@@ -96,7 +121,7 @@ public class MainActivity extends FragmentActivity {
 				args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
 				fragment.setArguments(args);
 				return fragment;
-			}
+			}*/
 		}
 
 		@Override
@@ -150,12 +175,13 @@ public class MainActivity extends FragmentActivity {
 	}
 	
 	public static class MapFragment extends Fragment {
-		//private GoogleMap map;
+		static final LatLng Monterey = new LatLng(36.6003, 121.8936);
+		private GoogleMap map;
 		
 		public MapFragment() {
 			
 		}
-		
+		/*
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
@@ -165,6 +191,20 @@ public class MainActivity extends FragmentActivity {
 			} catch(InflateException e) {
 				Log.e("mapstuff", "Error, Will Robinson: " + e);
 			}
+			
+			return rootView;
+		}*/
+		@Override
+		public View onCreateView(LayoutInflater inflater, ViewGroup container,
+				Bundle savedInstanceState) {
+			View rootView = null;
+			try {
+				rootView = inflater.inflate(R.layout.map, container, false);
+			} catch(InflateException e) {
+				Log.e("mapstuff", "Error, Will Robinson: " + e);
+			}
+			
+			//map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 			
 			return rootView;
 		}
