@@ -120,44 +120,46 @@ public class MainActivity extends FragmentActivity {
 			// Return a DummySectionFragment (defined as a static inner class
 			// below) with the page number as its lone argument.
 			//Fragment fragment = new DummySectionFragment();
-			Fragment fragment = null;
+			Fragment pageFragment = null;
+			final LatLng Monterey = new LatLng(36.6003, 121.8936);
+			MapFragment frag = null;
+			GoogleMap map = null;
 			Bundle args = null;
 			switch(position) {
 			case 0:
-				fragment = new DummySectionFragment();
+				pageFragment = new DummySectionFragment();
 				args = new Bundle();
 				args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
-				fragment.setArguments(args);
-				return fragment;
+				pageFragment.setArguments(args);
+				return pageFragment;
 			case 1:
-				fragment = new DummySectionFragment();
+				pageFragment = new DummySectionFragment();
 				args = new Bundle();
 				args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
-				fragment.setArguments(args);
-				return fragment;
+				pageFragment.setArguments(args);
+				return pageFragment;
 			case 2:
-				fragment = new MapFragment();
+				pageFragment = new MyMapFragment();
+				try{
+					//map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+				} catch(Exception e) {
+					if(getFragmentManager().findFragmentById(R.id.map) == null) {
+						Log.e("maperr", "Fragment is null");
+					}
+					Log.e("maperr", "id: " + R.id.map);
+					Log.e("maperr", "Error: " + e);
+				}
+				
+				//Marker monterey = map.addMarker(new MarkerOptions().position(Monterey).title("Monterey"));
 				args = new Bundle();
-				return fragment;
+				return pageFragment;
 			default:
-				fragment = new DummySectionFragment();
+				pageFragment = new DummySectionFragment();
 				args = new Bundle();
 				args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
-				fragment.setArguments(args);
-				return fragment;
-			}/*
-			if(position == 1) {
-				fragment = new MapFragment();
-				args = new Bundle();
-				return fragment;
+				pageFragment.setArguments(args);
+				return pageFragment;
 			}
-			else {
-				fragment = new DummySectionFragment();
-				Bundle args = new Bundle();
-				args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
-				fragment.setArguments(args);
-				return fragment;
-			}*/
 		}
 
 		@Override
@@ -210,37 +212,27 @@ public class MainActivity extends FragmentActivity {
 		}
 	}
 	
-	public static class MapFragment extends Fragment {
+	public static class MyMapFragment extends Fragment {
 		static final LatLng Monterey = new LatLng(36.6003, 121.8936);
 		private GoogleMap map;
 		
-		public MapFragment() {
+		public MyMapFragment() {
 			
 		}
-		/*
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
+			
 			View rootView = null;
 			try {
 				rootView = inflater.inflate(R.layout.map, container, false);
 			} catch(InflateException e) {
 				Log.e("mapstuff", "Error, Will Robinson: " + e);
 			}
+			Log.w("mapid", R.id.map + "");
 			
-			return rootView;
-		}*/
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View rootView = null;
-			try {
-				rootView = inflater.inflate(R.layout.map, container, false);
-			} catch(InflateException e) {
-				Log.e("mapstuff", "Error, Will Robinson: " + e);
-			}
-			
-			//map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+			//map = (GoogleMap)((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+			//map = (MapFragment)getFragmentManager().findFragmentById(R.id.map);
 			
 			return rootView;
 		}
