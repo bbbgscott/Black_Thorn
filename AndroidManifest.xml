@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="14"
+        android:minSdkVersion="9"
         android:targetSdkVersion="17" />
     
     <permission 
@@ -44,6 +44,6 @@
         
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyBek57-bHrUg_TvBHJUCyIjzsXWYKuJO50" />
+            android:value="AIzaSyB7WruYThDwx9yOLu51S5v--p9PIsxGWLQ" />
     </application>
 </manifest>
