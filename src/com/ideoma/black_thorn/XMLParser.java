@@ -17,7 +17,7 @@ public class XMLParser {
 	
 	public XMLParser()
 	{
-		
+		 
 	}
 
 	public Document ParseXMLToDoc(InputStream in) throws SAXException, IOException, ParserConfigurationException
