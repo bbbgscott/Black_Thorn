@@ -44,6 +44,6 @@
         
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyASH7WI1sghAaWJMlTjahf-Vj6g5lO28kI" />
+            android:value="AIzaSyASH7WI1sghAaWJMlTjahf-Vj6g5lO28kI" /> 
     </application>
 </manifest>
