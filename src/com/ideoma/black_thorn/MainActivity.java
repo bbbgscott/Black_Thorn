@@ -1,6 +1,5 @@
 package com.ideoma.black_thorn;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -23,16 +22,14 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);		
 		
-		LatLng monterey = new LatLng(36.654244, -121.799272);
 		
 		GoogleMap map;
 		map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 		map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
 		map.addMarker(new MarkerOptions()
-        .position(monterey)
+        .position(new LatLng(36.654244, -121.799272))
         .title("Hello world"));
 		map.setMyLocationEnabled(true);
-		map.animateCamera(CameraUpdateFactory.newLatLng(monterey));
 		/*
 		LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		LocationListener mlocListener = new MyLocationListener();
