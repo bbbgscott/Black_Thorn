@@ -18,6 +18,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources.NotFoundException;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -59,6 +60,7 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 public class MainActivity extends FragmentActivity {
 	GoogleMap map = null;
 	public static String fragTag;
+	private String[] facts;
 
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -105,6 +107,22 @@ public class MainActivity extends FragmentActivity {
 				}
 			});
 			ad.show();
+		}
+		
+		
+		try {
+			XMLParser parser = new XMLParser();
+			Document doc = parser.ParseXMLToDoc(getResources().openRawResource(R.xml.csumb_gps_coordinates));
+			NodeList nList = parser.ParseDocByTagName(doc, "fact");
+			facts = parser.GetNodeListValues(nList);
+		} catch (NotFoundException e) {
+			e.printStackTrace();
+		} catch (SAXException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
 		}
 		
 		// Create the adapter that will return a fragment for each of the three
