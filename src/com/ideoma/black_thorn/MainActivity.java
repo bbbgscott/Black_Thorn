@@ -210,7 +210,8 @@ public class MainActivity extends Activity implements OnMyLocationChangeListener
 					Random rand = new Random();
 					i = rand.nextInt(farray.length-1);
 					Log.i("tittysprinkles","i: " + i);
-					factsView.setText(farray[i]);
+					TextView txt = (TextView) findViewById(R.id.MarqueeText);
+					txt.setText(farray[i]);
 					
 					RestartTime(c);
 				}
