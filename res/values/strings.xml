@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">MapTesting</string>
+    <string name="app_name">RISE</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
 	<string name="copyright">Copyright 2012 Monterey Green Action. All rights reserved.</string>
