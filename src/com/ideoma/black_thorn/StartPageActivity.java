@@ -59,7 +59,8 @@ public class StartPageActivity extends Activity
 		aboutUsButton.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(getApplicationContext(), "No About Us Yet :'(", Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent(StartPageActivity.this,AboutUsActivity.class);
+				startActivity(intent);
 			}
 		});
 	}
