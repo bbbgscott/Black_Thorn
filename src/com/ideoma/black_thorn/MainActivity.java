@@ -193,7 +193,7 @@ public class MainActivity extends Activity implements OnMyLocationChangeListener
 	
 	public class MarqueeChangeTask extends AsyncTask {
 		long startTime = 0;
-		long nextTime = 3000;
+		long nextTime = 1000*60*2;
 		Calendar c;
 		
 		@Override
