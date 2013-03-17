@@ -200,17 +200,17 @@ public class MainActivity extends Activity implements OnMyLocationChangeListener
 		protected Object doInBackground(Object... arg0) {
 			boolean b = true;
 			String[] farray = GetFactsFromResource(R.raw.facts);
-			Log.e("tittysprinkles","farray length: " + farray.length);
+			//Log.e("tittysprinkles","farray length: " + farray.length);
 			while(b)
 			{
 				c = Calendar.getInstance();
-				Log.i("tittysprinkles","d: " + (c.getTimeInMillis() - startTime));
+				//Log.i("tittysprinkles","d: " + (c.getTimeInMillis() - startTime));
 				if(c.getTimeInMillis() - startTime >= nextTime)
 				{
 					int i = 0; 
 					Random rand = new Random();
 					i = rand.nextInt(farray.length-1);
-					Log.i("tittysprinkles","i: " + i);
+					//Log.i("tittysprinkles","i: " + i);
 					publishProgress(farray[i]);
 					
 					RestartTime(c);
