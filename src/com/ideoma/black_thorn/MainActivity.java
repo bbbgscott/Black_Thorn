@@ -57,7 +57,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
 public class MainActivity extends FragmentActivity {
-	GoogleMap map = null;
+	public static GoogleMap map = null;
 	public static String fragTag;
 
 	/**
@@ -119,39 +119,46 @@ public class MainActivity extends FragmentActivity {
 		mViewPager.setCurrentItem(1);
 		mViewPager.setOffscreenPageLimit(2);
 		
-		//setUpMapIfNeeded();
+		setUpMapIfNeeded();
 	}
 	
 	@Override
 	protected void onResume() {
 		super.onResume();
-		//setUpMapIfNeeded();
+		setUpMapIfNeeded();
 	}
 	
 	private void setUpMapIfNeeded() {
-		final LatLng Monterey = new LatLng(36.6003, 121.8936);
-		Log.e("fragerr", getSupportFragmentManager().findFragmentById(R.id.mappy).toString());
 		if(map == null) {
-			Log.e("fragerr", "startif");
-			//map = ((MapFragment) getFragmentManager().findFragmentById(R.id.mappy)).getMap();
+			Log.e("pinerr", "startif");
 			if (GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext()) == 0)
 	        {
-	            map = ((SupportMapFragment) getSupportFragmentManager().findFragmentByTag(fragTag)).getMap();
-	            map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-	            map.addMarker(new MarkerOptions().position(Monterey).title("Monterey"));
-	            //Marker monterey = map.addMarker(new MarkerOptions().position(Monterey).title("Monterey"));
-				map.moveCamera(CameraUpdateFactory.newLatLngZoom(Monterey, 15));
-				map.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
+	            Log.e("pinerr","sup");//getSupportFragmentManager().findFragmentByTag(fragTag).toString());
+	            SupportMapFragment fraggy = (SupportMapFragment) getSupportFragmentManager().findFragmentByTag(fragTag);
+	            if(fraggy == null) {
+	            	Log.e("pinerr", "null");
+	            	Log.e("pinerr", fragTag + " 2");
+	            } else {
+	            	Log.e("pinerr", "not null");
+	            	map = fraggy.getMap();
+	            	Log.e("pinerr", "pus");
+	            }
 	        }
-			Log.e("fragerr", "afterif");
 			if(map != null) {
+				Log.e("pinerr", "Calling setUpMap");
 				setUpMap();
 			}
 		}
 	}
 	
 	private void setUpMap() {
-		map.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+		final LatLng Monterey = new LatLng(36.6003, 121.8936);
+		//map.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+        map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        map.addMarker(new MarkerOptions().position(Monterey).title("Monterey"));
+        //Marker monterey = map.addMarker(new MarkerOptions().position(Monterey).title("Monterey"));
+		map.moveCamera(CameraUpdateFactory.newLatLngZoom(Monterey, 15));
+		map.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
 	}
 	
 	public void EnableGPS()
@@ -295,9 +302,8 @@ public class MainActivity extends FragmentActivity {
 		}
 	}
 	
-	public static class MyMapFragment extends Fragment {
+	public class MyMapFragment extends Fragment {
 		//final LatLng Monterey = new LatLng(36.6003, 121.8936);
-		private GoogleMap map;
 
 		public MyMapFragment() {
 		}
@@ -305,20 +311,30 @@ public class MainActivity extends FragmentActivity {
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
+			Log.e("pinerr", "createView");
 			View rootView = null;
 
 			try {
 				rootView = inflater.inflate(R.layout.map, container, false);
 			} catch(InflateException e) {
-				Log.e("mapstuff", "Error, Will Robinson: " + e);
+				Log.e("pinerr", "Error, Will Robinson: " + e);
 			}
 			
 			FragmentTransaction trans = getFragmentManager().beginTransaction();
-			//trans.add(this, this.getTag());
+			trans.add(this, this.getTag());
 			fragTag = this.getTag();
 			//trans.commit();
 			//map = ((MapFragment) getActivity().getFragmentManager().getFragment(savedInstanceState, R.id.mappy + "")).getMap();
-			Log.e("fragerr", "Hi There");
+			Log.e("pinerr", fragTag + " 1");
+			 SupportMapFragment fraggy = (SupportMapFragment) getSupportFragmentManager().findFragmentByTag(fragTag);
+	            if(fraggy == null) {
+	            	Log.e("pinerr", "null");
+	            	Log.e("pinerr", fragTag + " 2");
+	            } else {
+	            	Log.e("pinerr", "not null");
+	            	map = fraggy.getMap();
+	            	Log.e("pinerr", "pus");
+	            }
 			/*MapFragment fragThing = (MapFragment) this.getFragmentManager().findFragmentById(R.id.mappy);
 			map = ((MapFragment) fragThing).getMap();
 			Marker monterey = map.addMarker(new MarkerOptions().position(Monterey).title("Monterey"));
@@ -369,7 +385,6 @@ public class MainActivity extends FragmentActivity {
 
 	public static class AboutFragment extends Fragment {
 		final LatLng Monterey = new LatLng(36.6003, 121.8936);
-		private GoogleMap map;
 		String MainSiteUrl = "http://www.sustainablemontereycounty.org/monterey-green-action.html";
 		
 		public AboutFragment() 
