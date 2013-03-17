@@ -44,7 +44,6 @@ public class MainActivity extends Activity {
 		
 		LatLng monterey = new LatLng(36.654244, -121.799272);
 		
-		
 		GoogleMap map;
 		map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 		map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
@@ -118,10 +117,10 @@ public class MainActivity extends Activity {
 			NodeList nList = parser.ParseDocByTagName(doc, "point");
 			for(int i = 0; i < nList.getLength(); i++)
 			{
-				long lat = 0, lng = 0;
+				double lat = 0, lng = 0;
 				Element ele = (Element) nList.item(i);
-				lat = Long.parseLong(parser.GetTextValueByTagName(ele, "lat"));
-				lng = Long.parseLong(parser.GetTextValueByTagName(ele, "lng"));
+				lat = Double.parseDouble(parser.GetTextValueByTagName(ele, "lat"));
+				lng = Double.parseDouble(parser.GetTextValueByTagName(ele, "lng"));
 				Log.e("titty_sprinkles","Lat: " + lat + ", Lng: " + lng);
 				coords.add(new LatLng(lat,lng));
 			}
