@@ -195,6 +195,7 @@ public class MainActivity extends Activity implements OnMyLocationChangeListener
 		long startTime = 0;
 		long nextTime = 3000;
 		Calendar c;
+		
 		@Override
 		protected Object doInBackground(Object... arg0) {
 			boolean b = true;
@@ -210,13 +211,19 @@ public class MainActivity extends Activity implements OnMyLocationChangeListener
 					Random rand = new Random();
 					i = rand.nextInt(farray.length-1);
 					Log.i("tittysprinkles","i: " + i);
-					TextView txt = (TextView) findViewById(R.id.MarqueeText);
-					txt.setText(farray[i]);
+					publishProgress(farray[i]);
 					
 					RestartTime(c);
 				}
 			}
 			return null;
+		}
+		
+		protected void onProgressUpdate(Object... arg0)
+		{
+			String str = (String)arg0[0];
+			TextView txt = (TextView) findViewById(R.id.MarqueeText);
+			txt.setText(str);
 		}
 		
 		protected void onPreExecute()
