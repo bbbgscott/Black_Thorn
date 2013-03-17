@@ -105,7 +105,7 @@ public class MainActivity extends Activity {
 				long lat = 0, lng = 0;
 				Element ele = (Element) nList.item(i);
 				lat = Long.parseLong(parser.GetTextValueByTagName(ele, "lat"));
-				lng = Long.parseLong(parser.GetTextValueByTagName(ele, "lat"));
+				lng = Long.parseLong(parser.GetTextValueByTagName(ele, "lng"));
 				coords.add(new LatLng(lat,lng));
 			}
 			LatLng[] latlngarray = new LatLng[coords.size()];
