@@ -1,7 +1,5 @@
 package com.ideoma.black_thorn;
 
-<<<<<<< HEAD
-=======
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -15,7 +13,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
->>>>>>> 9fccbb4df0edc031cadf103f55db3d8d8bdbf711
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -39,11 +36,8 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);		
 		
-<<<<<<< HEAD
-=======
 		LatLng monterey = new LatLng(36.654244, -121.799272);
 		LatLng[] montereyArrayCoords;
->>>>>>> 9fccbb4df0edc031cadf103f55db3d8d8bdbf711
 		
 		GoogleMap map;
 		map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
