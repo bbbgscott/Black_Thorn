@@ -286,7 +286,7 @@ public class MainActivity extends Activity implements OnMyLocationChangeListener
 			{
 				String fact = "";
 				Element ele = (Element) nList.item(i);
-				fact = parser.GetTextValueByTagName(ele, "fact");
+				fact = ele.getTextContent();
 				
 				Log.e("titty_sprinkles","fact: " + fact);
 				factArray.add(fact);
