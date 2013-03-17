@@ -17,6 +17,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 
 import android.location.LocationListener;
@@ -25,26 +27,32 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
 public class MainActivity extends Activity {
 
+	LatLng[] montereyArrayCoords = new LatLng[]{new LatLng(36.654360,-121.800420),new LatLng(36.654244,-121.799272),
+			new LatLng(36.654600,-121.799846),new LatLng(36.654360,-121.800420)};
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);		
 		
 		LatLng monterey = new LatLng(36.654244, -121.799272);
-		LatLng[] montereyArrayCoords;
+		
 		
 		GoogleMap map;
 		map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 		map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+		/*
 		map.addMarker(new MarkerOptions()
         .position(monterey)
         .title("Hello world"));
+        */
 		map.setMyLocationEnabled(true);
 		map.animateCamera(CameraUpdateFactory.newLatLng(monterey));
 		/*
@@ -52,11 +60,17 @@ public class MainActivity extends Activity {
 		LocationListener mlocListener = new MyLocationListener();
 		mlocManager.*/
 		
-		montereyArrayCoords = GetGpsCoordsFromResource(R.xml.csumb_gps_coordinates);
+		//montereyArrayCoords = GetGpsCoordsFromResource(R.xml.csumb_gps_coordinates);
+		
 		for(int i = 0; i < montereyArrayCoords.length; i++)
 		{
 			map.addMarker(new MarkerOptions().position(montereyArrayCoords[i]).title(i+" pos"));
 		}
+		
+		Polyline line = map.addPolyline(new PolylineOptions()
+	     .add(montereyArrayCoords)
+	     .width(5)
+	     .color(Color.RED));
 	}
 
 	@Override
@@ -99,14 +113,17 @@ public class MainActivity extends Activity {
 			InputStream in = getResources().openRawResource(res);
 			XMLParser parser = new XMLParser();
 		
+			Log.e("titty_sprinkles","In: " + in.available());
+			
 			Document doc = parser.ParseXMLToDoc(in);
-			NodeList nList = parser.ParseDocByTagName(doc, "lat_long_pts");
+			NodeList nList = parser.ParseDocByTagName(doc, "point");
 			for(int i = 0; i < nList.getLength(); i++)
 			{
 				long lat = 0, lng = 0;
 				Element ele = (Element) nList.item(i);
 				lat = Long.parseLong(parser.GetTextValueByTagName(ele, "lat"));
 				lng = Long.parseLong(parser.GetTextValueByTagName(ele, "lng"));
+				Log.e("titty_sprinkles","Lat: " + lat + ", Lng: " + lng);
 				coords.add(new LatLng(lat,lng));
 			}
 			LatLng[] latlngarray = new LatLng[coords.size()];
