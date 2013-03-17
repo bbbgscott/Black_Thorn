@@ -64,6 +64,8 @@ public class MainActivity extends Activity implements OnMyLocationChangeListener
         .title("Hello world"));
         */
 		map.setMyLocationEnabled(true);
+		map.animateCamera(CameraUpdateFactory.newLatLng(monterey));
+		map.setOnMyLocationChangeListener(this);
 		/*
 		LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		LocationListener mlocListener = new MyLocationListener();
