@@ -25,6 +25,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
@@ -39,11 +40,18 @@ public class MainActivity extends Activity implements OnMyLocationChangeListener
 	//LatLng[] montereyArrayCoords = new LatLng[]{new LatLng(36.654360,-121.800420),new LatLng(36.654244,-121.799272),
 	//		new LatLng(36.654600,-121.799846),new LatLng(36.654360,-121.800420)};
 	LatLng[] montereyArrayCoords;
+	double latRadiusStart = 0.0005;
+	MediaPlayer myPlayer;
+	
+	public final static String baseResPath = "android.resource://com.ideoma.black_thorn/";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);		
+		
+		myPlayer = new MediaPlayer();
+		myPlayer.setLooping(false);
 		
 		LatLng monterey = new LatLng(36.654244, -121.799272);
 		
@@ -77,7 +85,27 @@ public class MainActivity extends Activity implements OnMyLocationChangeListener
 
 	@Override
 	public void onMyLocationChange(Location loc) {
-		
+		Log.i("tittysprinkles","myLocationChanged! " + loc.getLatitude() + " " + loc.getLongitude());
+		for(int i = 0; i < montereyArrayCoords.length; i++)
+		{
+			LatLng ll = montereyArrayCoords[i];
+			double dx = Math.abs(loc.getLatitude() - ll.latitude);
+			double dy = Math.abs(loc.getLongitude() - ll.longitude);
+			double d = Math.sqrt(dx*dx - dy*dy);
+			if(d < latRadiusStart)
+			{
+				Log.i("tittysprinkles","Radius activated! " + d);
+				try {
+					myPlayer.reset();
+					myPlayer.setDataSource(baseResPath + R.raw.convo1);
+					Log.i("tittysprinkles","Data source set: " + baseResPath + R.raw.convo1);
+					myPlayer.prepare();
+					myPlayer.start();
+				} catch (Exception e) {
+					Log.e("tittysprinkles","Error setting player's data source! " + e.getMessage());
+				}
+			}
+		}
 	} 
 	
 	@Override
