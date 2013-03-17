@@ -14,6 +14,7 @@ import org.xml.sax.SAXException;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMyLocationChangeListener;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -21,6 +22,7 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 
+import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
@@ -32,10 +34,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements OnMyLocationChangeListener{
 
-	LatLng[] montereyArrayCoords = new LatLng[]{new LatLng(36.654360,-121.800420),new LatLng(36.654244,-121.799272),
-			new LatLng(36.654600,-121.799846),new LatLng(36.654360,-121.800420)};
+	//LatLng[] montereyArrayCoords = new LatLng[]{new LatLng(36.654360,-121.800420),new LatLng(36.654244,-121.799272),
+	//		new LatLng(36.654600,-121.799846),new LatLng(36.654360,-121.800420)};
+	LatLng[] montereyArrayCoords;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +61,7 @@ public class MainActivity extends Activity {
 		LocationListener mlocListener = new MyLocationListener();
 		mlocManager.*/
 		
-		//montereyArrayCoords = GetGpsCoordsFromResource(R.xml.csumb_gps_coordinates);
+		montereyArrayCoords = GetGpsCoordsFromResource(R.raw.csumb_gps_coordinates);
 		
 		for(int i = 0; i < montereyArrayCoords.length; i++)
 		{
@@ -66,11 +69,17 @@ public class MainActivity extends Activity {
 		}
 		
 		Polyline line = map.addPolyline(new PolylineOptions()
-	     .add(montereyArrayCoords)
-	     .width(5)
-	     .color(Color.RED));
+	     	.add(montereyArrayCoords)
+	     	.width(5)
+	     	.color(Color.RED)
+	     );
 	}
 
+	@Override
+	public void onMyLocationChange(Location loc) {
+		
+	} 
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -135,6 +144,6 @@ public class MainActivity extends Activity {
 			e.printStackTrace();
 		}
 		return null;
-	} 
+	}
 	
 }
