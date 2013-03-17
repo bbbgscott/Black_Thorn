@@ -21,7 +21,7 @@ public class StartPageActivity extends Activity
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.mainlayout);
+		setContentView(R.layout.main);
 		
 		final LocationManager locmanager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 		if(!locmanager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
