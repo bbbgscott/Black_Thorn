@@ -202,6 +202,7 @@ public class MainActivity extends Activity implements OnMyLocationChangeListener
 			Log.e("tittysprinkles","farray length: " + farray.length);
 			while(b)
 			{
+				c = Calendar.getInstance();
 				Log.i("tittysprinkles","d: " + (c.getTimeInMillis() - startTime));
 				if(c.getTimeInMillis() - startTime >= nextTime)
 				{
