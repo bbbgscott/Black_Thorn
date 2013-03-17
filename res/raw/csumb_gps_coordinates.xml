@@ -3,25 +3,25 @@
 		<point>
 			<order>1</order>
 			<lat>36.654563</lat>
-			<long>-121.802394</long>
+			<lng>-121.802394</lng>
 			<title>BLDG18 Front</title>
 		</point>
 		<point>
 			<order>2</order>
 			<lat>36.654244</lat>
-			<long>-121.799272</long>
+			<lng>-121.799272</lng>
 			<title>BLDG18 DC</title>
 		</point>
 		<point>
 			<order>3</order>
 			<lat>36.654600</lat>
-			<long>-121.799846</long>
+			<lng>-121.799846</lng>
 			<title>BLDG18 Back</title>
 		</point>
 		<point>
 			<order>4</order>
 			<lat>36.654360</lat>
-			<long>-121.800420</long> 
+			<lng>-121.800420</lng> 
 			<title>BLDG18 Parking Lot</title>
 		</point>
 
