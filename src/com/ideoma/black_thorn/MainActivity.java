@@ -50,11 +50,10 @@ public class MainActivity extends Activity {
 		map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
 		/*
 		map.addMarker(new MarkerOptions()
-        .position(monterey)
+        .position(new LatLng(36.654244, -121.799272))
         .title("Hello world"));
         */
 		map.setMyLocationEnabled(true);
-		map.animateCamera(CameraUpdateFactory.newLatLng(monterey));
 		/*
 		LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		LocationListener mlocListener = new MyLocationListener();

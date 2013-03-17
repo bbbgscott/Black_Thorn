@@ -4,8 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#FFFFFF"
-    >
-    
+    >    
 <ImageView
     android:id="@+id/imageView1"
     android:layout_width="match_parent"
@@ -14,9 +13,9 @@
     android:src="@drawable/rise_logo" />
 
 <Button
-		android:text="Configure"
+		android:text="Start"
 		android:layout_height="wrap_content"
-		android:id="@+id/configButt"
+		android:id="@+id/startButt"
 		android:layout_width="match_parent"
 		android:layout_marginLeft="20dip"
 		android:layout_marginRight="20dip"
@@ -31,9 +30,9 @@
 </Button>
 
 <Button 
-		android:text="Metrics"
+		android:text="About"
 		android:layout_height="wrap_content"
-		android:id="@+id/metricsButt"
+		android:id="@+id/aboutButt"
 		android:layout_width="match_parent"
 		android:layout_marginLeft="20dip"
 		android:layout_marginRight="20dip"
@@ -46,25 +45,15 @@
 		android:textSize="20dip"		
 		>
 </Button>
-<Button 
-		android:text="Contact Us"
-		android:layout_height="wrap_content"
-		android:id="@+id/contactButt"
-		android:layout_width="match_parent"
-		android:layout_marginLeft="20dip"
-		android:layout_marginRight="20dip"
-		android:layout_marginTop="15dip"
-		android:layout_marginBottom="0dip"
-		android:background="@layout/buttonshape"
-		android:textColor="#FFFFFF"
-		android:padding="10dip"
-		android:textStyle="bold"
-		android:textSize="20dip"		
-		>
-</Button>
+
 
 
 <TextView android:gravity="center_horizontal|bottom" android:padding="10dip" android:text="@string/copyright" android:id="@+id/textView1" android:layout_width="match_parent" android:layout_height="match_parent"></TextView>
     
     
 </LinearLayout>
+
+
+
+
+
