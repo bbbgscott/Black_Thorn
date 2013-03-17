@@ -202,11 +202,13 @@ public class MainActivity extends Activity implements OnMyLocationChangeListener
 			Log.e("tittysprinkles","farray length: " + farray.length);
 			while(b)
 			{
+				Log.i("tittysprinkles","d: " + (c.getTimeInMillis() - startTime));
 				if(c.getTimeInMillis() - startTime >= nextTime)
 				{
 					int i = 0; 
 					Random rand = new Random();
 					i = rand.nextInt(farray.length-1);
+					Log.i("tittysprinkles","i: " + i);
 					factsView.setText(farray[i]);
 					
 					RestartTime(c);
