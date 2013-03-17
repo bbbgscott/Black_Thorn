@@ -3,6 +3,7 @@ package com.ideoma.black_thorn;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Locale;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -18,6 +19,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.LocationManager;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.provider.Settings.Global;
@@ -34,8 +37,11 @@ import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,6 +69,9 @@ public class MainActivity extends FragmentActivity {
 	 * {@link android.support.v4.app.FragmentStatePagerAdapter}.
 	 */
 	SectionsPagerAdapter mSectionsPagerAdapter;
+	BottomPagerAdapter mBottomPagerAdapter;
+	
+	String MainSiteUrl = "http://www.sustainablemontereycounty.org/monterey-green-action.html";
 	
 	private final int OPEN_SECURITY_SETTINGS = 27;
 
@@ -70,6 +79,7 @@ public class MainActivity extends FragmentActivity {
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
+	BottomViewPager bottomPager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -103,13 +113,19 @@ public class MainActivity extends FragmentActivity {
 		// primary sections of the app.
 		mSectionsPagerAdapter = new SectionsPagerAdapter(
 				getSupportFragmentManager());
+		mBottomPagerAdapter = new BottomPagerAdapter(
+				getSupportFragmentManager());
 
 		// Set up the ViewPager with the sections adapter.
 		mViewPager = (ViewPager) findViewById(R.id.pager);
+		bottomPager = (BottomViewPager)findViewById(R.id.pager_bottom);
+		bottomPager.pass_on_vp = mViewPager;
+		
 		mViewPager.setAdapter(mSectionsPagerAdapter);
 		mViewPager.setCurrentItem(1);
 		mViewPager.setOffscreenPageLimit(2);
 		
+<<<<<<< HEAD
 		//setUpMapIfNeeded();
 	}
 	
@@ -143,6 +159,9 @@ public class MainActivity extends FragmentActivity {
 	
 	private void setUpMap() {
 		map.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+=======
+		bottomPager.setAdapter(mBottomPagerAdapter);
+>>>>>>> bc3b935c4364d83e35969d2b5e9009cdad96e5b3
 	}
 	
 	public void EnableGPS()
@@ -249,7 +268,51 @@ public class MainActivity extends FragmentActivity {
 			return null;
 		}
 	}
+	
+	public class BottomPagerAdapter extends FragmentPagerAdapter {
+		String currentTitle = "poop";
+		String[] titlesArray;
+		int currentIndex = 0;
+		
+		public BottomPagerAdapter(FragmentManager fm) {
+			super(fm);
+		}
+		@Override
+		public int getCount() {
+			// Show 1 total pages.
+			return 1;
+		}
 
+		@Override
+		public CharSequence getPageTitle(int position) {
+			return currentTitle;
+		}
+		@Override
+		public Fragment getItem(int pos) {
+			return new Fragment();
+		}
+	}
+
+	public class BottomViewPager extends ViewPager
+	{
+		public ViewPager pass_on_vp;
+		public BottomViewPager(Context context, ViewPager pager) {
+			super(context);
+			pass_on_vp = pager;
+		}
+		
+		@Override
+		public boolean onInterceptTouchEvent (MotionEvent ev)
+		{
+			if(pass_on_vp!=null)
+			{
+				pass_on_vp.onInterceptTouchEvent(ev);
+			}
+			return false;
+		}
+		
+	}
+	
 	/**
 	 * A dummy fragment representing a section of the app, but that simply
 	 * displays dummy text.
@@ -360,26 +423,88 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	public static class AboutFragment extends Fragment {
+<<<<<<< HEAD
+=======
+		final LatLng Monterey = new LatLng(36.6003, 121.8936);
+		private GoogleMap map;
+		String MainSiteUrl = "http://www.sustainablemontereycounty.org/monterey-green-action.html";
+>>>>>>> bc3b935c4364d83e35969d2b5e9009cdad96e5b3
 		
-		public AboutFragment() {
+		public AboutFragment() 
+		{
 			
 		}
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
-			
-			View rootView = null;
 			try {
-				rootView = inflater.inflate(R.layout.aboutuslayout, container, false);
+				final View rootView =  inflater.inflate(R.layout.aboutuslayout, container, false);
+			
+				//map = (GoogleMap)((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+				//map = (MapFragment)getFragmentManager().findFragmentById(R.id.map);
+				
+				Button donateButton = (Button)rootView.findViewById(R.id.button1);
+				donateButton.setOnClickListener(new OnClickListener(){
+					@Override
+					public void onClick(View v) {
+						Toast.makeText(rootView.getContext(), "Sorry, there is no donation function yet.", Toast.LENGTH_SHORT).show();
+					}
+				});
+				
+				Button siteButton = (Button)rootView.findViewById(R.id.Button01);
+				siteButton.setOnClickListener(new OnClickListener(){
+					@Override
+					public void onClick(View v) {
+						Intent intent = new Intent(Intent.ACTION_VIEW);
+						intent.setData(Uri.parse(MainSiteUrl));
+						startActivity(intent);
+					}
+				});
+				
+				return rootView;
 			} catch(InflateException e) {
 				Log.e("mapstuff", "Error, Will Robinson: " + e);
 			}
+<<<<<<< HEAD
 			Log.w("mapid", R.id.mappy + "");
 			
 			return rootView;
 		}
 	}
 
+=======
+			Log.w("mapid", R.id.map + "");
+			return null;
+		}
+	}
+
+	public class MarqueeChangeTask extends AsyncTask {
+		long startTime = 0;
+		long nextTime = 2*(60*1000);
+		Calendar c;
+		@Override
+		protected Object doInBackground(Object... arg0) {
+			if(c.getTimeInMillis()-startTime >= nextTime)
+			{
+				RestartTime(c);
+				//Change text
+			}
+			return null;
+		}
+		
+		protected void onPreExecute()
+		{
+			c = Calendar.getInstance();
+			RestartTime(c);
+		}
+		
+		private void RestartTime(Calendar cal)
+		{
+			startTime = cal.getTimeInMillis();
+		}
+	}
+	
+>>>>>>> bc3b935c4364d83e35969d2b5e9009cdad96e5b3
 	LatLng[] GetGpsCoordsFromResource(int res)
 	{
 		try {
