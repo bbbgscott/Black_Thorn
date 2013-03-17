@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/maplayout"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity" >
 
 	<fragment 
-	    android:id="@+id/map"
+	    xmlns:map="http://schemas.android.com/apk/res-auto"
+	    android:id="@+id/mappy"
+	    android:tag="41"
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent"
 	    class="com.google.android.gms.maps.SupportMapFragment" />

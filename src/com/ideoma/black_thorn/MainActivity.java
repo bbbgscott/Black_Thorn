@@ -20,10 +20,12 @@ import android.content.Intent;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.provider.Settings.Global;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -35,16 +37,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 
 public class MainActivity extends FragmentActivity {
+	GoogleMap map = null;
+	public static String fragTag;
 
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -101,7 +109,40 @@ public class MainActivity extends FragmentActivity {
 		mViewPager.setAdapter(mSectionsPagerAdapter);
 		mViewPager.setCurrentItem(1);
 		mViewPager.setOffscreenPageLimit(2);
-
+		
+		//setUpMapIfNeeded();
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		//setUpMapIfNeeded();
+	}
+	
+	private void setUpMapIfNeeded() {
+		final LatLng Monterey = new LatLng(36.6003, 121.8936);
+		Log.e("fragerr", getSupportFragmentManager().findFragmentById(R.id.mappy).toString());
+		if(map == null) {
+			Log.e("fragerr", "startif");
+			//map = ((MapFragment) getFragmentManager().findFragmentById(R.id.mappy)).getMap();
+			if (GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext()) == 0)
+	        {
+	            map = ((SupportMapFragment) getSupportFragmentManager().findFragmentByTag(fragTag)).getMap();
+	            map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+	            map.addMarker(new MarkerOptions().position(Monterey).title("Monterey"));
+	            //Marker monterey = map.addMarker(new MarkerOptions().position(Monterey).title("Monterey"));
+				map.moveCamera(CameraUpdateFactory.newLatLngZoom(Monterey, 15));
+				map.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
+	        }
+			Log.e("fragerr", "afterif");
+			if(map != null) {
+				setUpMap();
+			}
+		}
+	}
+	
+	private void setUpMap() {
+		map.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
 	}
 	
 	public void EnableGPS()
@@ -126,6 +167,8 @@ public class MainActivity extends FragmentActivity {
 		public SectionsPagerAdapter(FragmentManager fm) {
 			super(fm);
 		}
+		
+		
 
 		@Override
 		public Fragment getItem(int position) {
@@ -133,41 +176,48 @@ public class MainActivity extends FragmentActivity {
 			// Return a DummySectionFragment (defined as a static inner class
 			// below) with the page number as its lone argument.
 			//Fragment fragment = new DummySectionFragment();
-			Fragment pageFragment = null;
+			Fragment pageFragment;
 			final LatLng Monterey = new LatLng(36.6003, 121.8936);
-			MapFragment frag = null;
-			GoogleMap map = null;
 			Bundle args = null;
+			
 			switch(position) {
 			case 0:
 				pageFragment = new AboutFragment();
-				args = new Bundle();
-				args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
-				args.putInt("view", R.layout.aboutuslayout);
-				pageFragment.setArguments(args);
-				return pageFragment;
+				break;
 			case 1:
 				pageFragment = new WelcomeFragment();
-				args = new Bundle();
-				args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
-				args.putInt("view", R.layout.mainlayout);
-				pageFragment.setArguments(args);
-				return pageFragment;
+				break;
 			case 2:
-				pageFragment = new MapFragment();
-				try{
-					//map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-				} catch(Exception e) {
-					if(getFragmentManager().findFragmentById(R.id.map) == null) {
-						Log.e("maperr", "Fragment is null");
+				//MyMapFragment mapFrag = new MyMapFragment();
+				pageFragment = new MyMapFragment();
+				//map = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mappy)).getMap();
+				/*Log.e("fragerr", "about to map");
+				Log.e("fragerr", R.id.mappy + "");
+				if(map == null){
+					Log.e("fragerr", "map is null");
+					int x = 1;
+					while(map == null){
+						Log.e("fragerr", x + "");
+						try{
+							MapFragment mapFrag = (MapFragment) getFragmentManager().findFragmentById(R.id.mappy);
+							if(mapFrag != null) {Log.e("fragerr", "mapFrag works");}
+							map = mapFrag.getMap();
+						} catch(Exception e) {
+							x++;
+							continue;
+						}
 					}
-					Log.e("maperr", "id: " + R.id.map);
-					Log.e("maperr", "Error: " + e);
+					if(map != null) {
+						Log.e("fragerr", "Map available");
+					}
+				} else {
+					Log.e("fragerr", "map not null");
 				}
 				
-				//Marker monterey = map.addMarker(new MarkerOptions().position(Monterey).title("Monterey"));
-				args = new Bundle();
-				return pageFragment;
+				Marker monterey = map.addMarker(new MarkerOptions().position(Monterey).title("Monterey"));
+				map.moveCamera(CameraUpdateFactory.newLatLngZoom(Monterey, 15));
+				map.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);*/
+				break;
 			default:
 				pageFragment = new DummySectionFragment();
 				args = new Bundle();
@@ -176,6 +226,7 @@ public class MainActivity extends FragmentActivity {
 				pageFragment.setArguments(args);
 				return pageFragment;
 			}
+			return pageFragment;
 		}
 
 		@Override
@@ -194,8 +245,6 @@ public class MainActivity extends FragmentActivity {
 				return getString(R.string.title_section2).toUpperCase(l);
 			case 2:
 				return getString(R.string.title_section3).toUpperCase(l);
-			case 3:
-				return "Hello";
 			}
 			return null;
 		}
@@ -238,36 +287,58 @@ public class MainActivity extends FragmentActivity {
 		}
 	}
 	
-	public static class MapFragment extends Fragment {
-		static final LatLng Monterey = new LatLng(36.6003, 121.8936);
+	public static class MyMapFragment extends Fragment {
+		//final LatLng Monterey = new LatLng(36.6003, 121.8936);
 		private GoogleMap map;
-		
-		public MapFragment() {
-			
+
+		public MyMapFragment() {
 		}
+
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
-			
 			View rootView = null;
+
 			try {
 				rootView = inflater.inflate(R.layout.map, container, false);
 			} catch(InflateException e) {
 				Log.e("mapstuff", "Error, Will Robinson: " + e);
 			}
-			Log.w("mapid", R.id.map + "");
 			
-			//map = (GoogleMap)((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-			//map = (MapFragment)getFragmentManager().findFragmentById(R.id.map);
+			FragmentTransaction trans = getFragmentManager().beginTransaction();
+			//trans.add(this, this.getTag());
+			fragTag = this.getTag();
+			//trans.commit();
+			//map = ((MapFragment) getActivity().getFragmentManager().getFragment(savedInstanceState, R.id.mappy + "")).getMap();
+			Log.e("fragerr", "Hi There");
+			/*MapFragment fragThing = (MapFragment) this.getFragmentManager().findFragmentById(R.id.mappy);
+			map = ((MapFragment) fragThing).getMap();
+			Marker monterey = map.addMarker(new MarkerOptions().position(Monterey).title("Monterey"));
+			map.moveCamera(CameraUpdateFactory.newLatLngZoom(Monterey, 15));
+			map.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);*/
 			
+			//map = ((MapFragment) getFragmentManager().findFragmentById(R.id.mappy)).getMap();
+			//map = ((MapFragment) rootView.findViewById(R.layout.map).getTag(41)).getMap();
+			//Log.e("fragerr", rootView.findViewById(R.layout.map).toString());
+		
 			return rootView;
 		}
+		
+		public GoogleMap getMyMap() {
+			return map;
+		}
+		/*
+		@Override
+		public void onResume() {
+			Log.e("fragerr", "starting resume");
+			super.onResume();
+			Log.e("fragerr", "ending resume");
+		}*/
 	}
 
-<<<<<<< HEAD
 	public static class WelcomeFragment extends Fragment {
-		static final LatLng Monterey = new LatLng(36.6003, 121.8936);
-		private GoogleMap map;
+		//static final LatLng Monterey = new LatLng(36.6003, 121.8936);
+		//private GoogleMap map;
 		
 		public WelcomeFragment() {
 			
@@ -282,18 +353,13 @@ public class MainActivity extends FragmentActivity {
 			} catch(InflateException e) {
 				Log.e("mapstuff", "Error, Will Robinson: " + e);
 			}
-			Log.w("mapid", R.id.map + "");
-			
-			//map = (GoogleMap)((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-			//map = (MapFragment)getFragmentManager().findFragmentById(R.id.map);
+			Log.w("mapid", R.id.mappy + "");
 			
 			return rootView;
 		}
 	}
 
 	public static class AboutFragment extends Fragment {
-		static final LatLng Monterey = new LatLng(36.6003, 121.8936);
-		private GoogleMap map;
 		
 		public AboutFragment() {
 			
@@ -308,16 +374,12 @@ public class MainActivity extends FragmentActivity {
 			} catch(InflateException e) {
 				Log.e("mapstuff", "Error, Will Robinson: " + e);
 			}
-			Log.w("mapid", R.id.map + "");
-			
-			//map = (GoogleMap)((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-			//map = (MapFragment)getFragmentManager().findFragmentById(R.id.map);
+			Log.w("mapid", R.id.mappy + "");
 			
 			return rootView;
 		}
 	}
 
-=======
 	LatLng[] GetGpsCoordsFromResource(int res)
 	{
 		try {
@@ -348,5 +410,4 @@ public class MainActivity extends FragmentActivity {
 		return null;
 	} 
 	
->>>>>>> 59e9606fd4bca9f81dbcf36f1365d6b7f9d72ab2
 }
