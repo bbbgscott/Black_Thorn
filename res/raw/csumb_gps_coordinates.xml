@@ -2,27 +2,31 @@
 <dataset>
 		<point>
 			<order>1</order>
-			<lat>36.654563</lat>
-			<lng>-121.802394</lng>
+			<lat>36.654881</lat>
+			<lng>-121.809230</lng>
 			<title>BLDG18 Front</title>
+			<audio>R.raw.convo1</audio>
 		</point>
 		<point>
 			<order>2</order>
-			<lat>36.654244</lat>
-			<lng>-121.799272</lng>
+			<lat>36.654735</lat>
+			<lng>-121.802740</lng>
 			<title>BLDG18 DC</title>
+			<audio>R.raw.convo2</audio>
 		</point>
 		<point>
 			<order>3</order>
-			<lat>36.654600</lat>
-			<lng>-121.799846</lng>
+			<lat>36.652884</lat>
+			<lng>-121.802300</lng>
 			<title>BLDG18 Back</title>
+			<audio>R.raw.convo3</audio>
 		</point>
 		<point>
 			<order>4</order>
-			<lat>36.654360</lat>
-			<lng>-121.800420</lng> 
+			<lat>36.652910</lat>
+			<lng>-121.809123</lng> 
 			<title>BLDG18 Parking Lot</title>
+			<audio>R.raw.convo4</audio>
 		</point>
 
 </dataset>
